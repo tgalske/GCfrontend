@@ -1,0 +1,75 @@
+@tailwind preflight;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* Bentley */
+.college_09A6F0 {
+  background-color: #09A6F0
+}
+
+/* High Point */
+.college_330072 {
+  background-color: #330072
+}
+
+/* UConn */
+.college_02254B {
+  background-color: #02254B
+}
+
+/* Southern CT */
+.college_08549B {
+  background-color: #08549B
+}
+
+/* Syracuse */
+.college_D44500 {
+  background-color: #D44500
+}
+
+/* UNH */
+.college_003591 {
+  background-color: #003591
+}
+
+/* Florida Inst Tech */
+.college_900028 {
+  background-color: #900028
+}
+
+/* Belmont */
+.college_05286C {
+  background-color: #05286C
+}
+
+/* JMU */
+.college_450084 {
+  background-color: #450084
+}
+
+/* Maryland */
+.college_CF102D {
+  .background-color: #CF102D
+}
+
+/* Penn St. */
+.college_002D62 {
+  background-color: #002D62
+}
+
+/* UPenn */
+.college_1D235D {
+  background-color: #1D235D
+}
+
+/* Boston U */
+.college_CC0000 {
+  background-color: #CC0000
+}
+
+/* Marist */
+.college_DB0030 {
+  background-color: #DB0030
+}

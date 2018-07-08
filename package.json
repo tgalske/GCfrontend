@@ -1,0 +1,24 @@
+{
+  "name": "memberfrontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "request": "^2.87.0"
+  },
+  "scripts": {
+    "prestart": "tailwind build ./src/index.tailwind.css -c ./tailwind.js -o ./src/index.css",
+    "start": "react-scripts start",
+    "prebuild": "tailwind build ./src/index.tailwind.css -c ./tailwind.js -o ./src/index.css",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "postcss-loader": "^2.1.5",
+    "tailwindcss": "^0.6.1"
+  }
+}
