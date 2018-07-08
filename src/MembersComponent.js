@@ -23,11 +23,11 @@ class MembersComponent extends React.Component {
   render() {
 
     return(
-      <div>
+      <div className="bg-grey-lightest shadow-lg rounded pt-1 pb-1">
         {this.state.memberAPI.members.map(function(member, i) {
           return <div
             key={i}
-            className={"text-white m-4 hover:bg-grey-dark max-w-sm m-4 rounded overflow-hidden shadow-lg " + member.college.color}
+            className={"text-white m-4 hover:bg-grey-dark rounded overflow-hidden shadow-lg " + member.college.color}
           >
             <div className="px-6 py-4">
               <div className="text-2xl">

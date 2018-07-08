@@ -34,32 +34,21 @@ class MainComponent extends React.Component {
       </div>
     </Router>
 
-    if (this.state.isLoggedIn) {
-      return (
-        <div>
-        <TitleComponent/>
-          <button
-            className="bg-transparent hover:bg-teal text-teal-dark font-semibold hover:text-white mt-4 py-2 px-4 border border-teal hover:border-transparent rounded"
-            onClick={this.toggleLoginStatus.bind(this)}>
-            Log Out
-          </button>
-          <Router>
-            <MembersComponent/>
-          </Router>
-          <ContentComponent/>
-        </div>
-      )
-    } else {
-      return (
+    return (
+      <Router>
         <div>
           <TitleComponent/>
-          <LoginComponent
-            isLoggedIn={this.state.isLoggedIn}
-            callbackFromParent={this.toggleLoginStatus}
-          />
+          <div className="flex mb-4">
+            <div className="w-2/3 h-full">
+              <ContentComponent/>
+            </div>
+            <div className="m-4 w-1/3">
+              <MembersComponent/>
+            </div>
+          </div>
         </div>
-      )
-    }
+      </Router>
+    )
   }
 }
 
