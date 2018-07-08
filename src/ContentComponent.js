@@ -6,16 +6,16 @@ class ContentComponent extends React.Component {
   constructor() {
     super()
     this.state = {
-      memberAPI: {
-        members:[]
+      contentAPI: {
+        content:[]
       }
     }
   }
 
   componentDidMount() {
-    request('http://localhost:3000/members', function (error, response, body) {
+    request('http://localhost:3000/content', function (error, response, body) {
       let myObj = JSON.parse(body)
-      this.setState({memberAPI: myObj}, function() {
+      this.setState({contentAPI: myObj}, function() {
       })
     }.bind(this));
   }
@@ -23,7 +23,26 @@ class ContentComponent extends React.Component {
   render() {
     return(
       <div>
-        <code>Show me some content!</code>
+        <form ref='uploadForm'
+          id='uploadForm'
+          action='http://localhost:3000/content'
+          method='post'
+          encType="multipart/form-data">
+            <input type="file" name="sampleFile" />
+            <input type='submit' value='Upload!' />
+        </form>
+        <div>
+          {this.state.contentAPI.content.map(function(media, i) {
+            return <div
+              key={i}
+              className="max-w-sm m-4 rounded overflow-hidden shadow-lg"
+            >
+              <div className="px-6 py-4">
+                <img src={'http://127.0.0.1:3000/images/' + media.imageId + '.jpg'}/>
+              </div>
+            </div>
+          })}
+        </div>
       </div>
     )
   }

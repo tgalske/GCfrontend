@@ -22,12 +22,6 @@ class MembersComponent extends React.Component {
 
   render() {
 
-    if (this.props.isLoggedIn) {
-      console.log("Logged in!")
-    } else {
-      console.log("Not logged in")
-    }
-
     return(
       <div>
         {this.state.memberAPI.members.map(function(member, i) {

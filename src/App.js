@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import TitleComponent from './TitleComponent'
+import HomeComponent from './HomeComponent'
 import LoginComponent from './LoginComponent'
 import MembersComponent from './MembersComponent'
 import ContentComponent from './ContentComponent'
@@ -10,7 +11,7 @@ class MainComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: true};
+      isLoggedIn: false};
   }
 
   toggleLoginStatus = () => {
@@ -18,6 +19,20 @@ class MainComponent extends React.Component {
   }
 
   render() {
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/home">Home Page</Link>
+          </li>
+          <li>
+            <Link to="/protected">Protected Page</Link>
+          </li>
+        </ul>
+        <Route path="/home" component={HomeComponent} />
+        <Route path="/members" component={MembersComponent} />
+      </div>
+    </Router>
 
     if (this.state.isLoggedIn) {
       return (
@@ -29,7 +44,7 @@ class MainComponent extends React.Component {
             Log Out
           </button>
           <Router>
-            <Route path="/members" component={MembersComponent} />
+            <MembersComponent/>
           </Router>
           <ContentComponent/>
         </div>
