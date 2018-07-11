@@ -1,17 +1,25 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import TitleComponent from './TitleComponent'
-import HomeComponent from './HomeComponent'
-import LoginComponent from './LoginComponent'
 import MembersComponent from './MembersComponent'
 import ContentComponent from './ContentComponent'
+import UploadComponent from './UploadComponent'
 
 class MainComponent extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false};
+      isLoggedIn: false,
+      needsUpdate: false
+    };
+  }
+
+  myCallback = (needsUpdate) => {
+    console.log("Going from: " + this.state.needsUpdate)
+    this.setState({needsUpdate: !this.state.needsUpdate}, function() {
+      console.log("to: " + this.state.needsUpdate)
+    })
   }
 
   toggleLoginStatus = () => {
@@ -19,28 +27,16 @@ class MainComponent extends React.Component {
   }
 
   render() {
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/home">Home Page</Link>
-          </li>
-          <li>
-            <Link to="/protected">Protected Page</Link>
-          </li>
-        </ul>
-        <Route path="/home" component={HomeComponent} />
-        <Route path="/members" component={MembersComponent} />
-      </div>
-    </Router>
-
     return (
       <Router>
         <div>
           <TitleComponent/>
           <div className="flex mb-4">
-            <div className="w-2/3 h-full">
-              <ContentComponent/>
+            <div className="w-1/3 m-4">
+              <ContentComponent needsUpdate={this.state.needsUpdate}/>
+            </div>
+            <div className="w-1/3 m-4">
+              <UploadComponent callbackFromParent={this.myCallback}/>
             </div>
             <div className="m-4 w-1/3">
               <MembersComponent/>
