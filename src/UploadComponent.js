@@ -4,17 +4,23 @@ import axios from 'axios';
 class UploadComponent extends React.Component {
 
   constructor(props) {
-    super(props);
-    this.state = {
-      title: ''
-    }
-    this.fileInput = React.createRef();
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this)
+      super(props);
+      this.state = {
+        title: ''
+      }
+
+      this.handleChange = this.handleChange.bind(this);
+      this.handleClear = this.handleClear.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.fileInput = React.createRef();
   }
 
   handleChange(event) {
     this.setState({title: event.target.value})
+  }
+
+  handleClear(event) {
+    this.setState({title: '', })
   }
 
   handleSubmit(event) {
@@ -28,10 +34,11 @@ class UploadComponent extends React.Component {
       headers: { 'content-type': 'multipart/form-data' }
     }
     const url = 'http://127.0.0.1:3000/content';
-    axios.post(url, formData, config)
-    console.log(formData)
-    let needsUpdate = true
-    this.props.callbackFromParent(needsUpdate);
+    axios.post(url, formData, config).then(function (response) {
+      this.props.handler()
+      this.handleClear()
+    }.bind(this))
+
   }
 
   render() {
@@ -56,6 +63,7 @@ class UploadComponent extends React.Component {
               image / video name
             </label>
             <input
+              required
               className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight"
               type="text"
               value={this.state.title}

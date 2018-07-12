@@ -10,19 +10,21 @@ class ContentComponent extends React.Component {
         content:[]
       }
     }
+    this.loadContent = this.loadContent.bind(this);
   }
 
   componentWillReceiveProps() {
-    console.log("Component will receive props")
-    this.componentDidMount()
+    this.loadContent()
   }
 
   componentDidMount() {
-    console.log("Content needsUpdate: " + this.props.needsUpdate)
+    this.loadContent()
+  }
+
+  loadContent() {
     request('http://localhost:3000/content', function (error, response, body) {
       let myObj = JSON.parse(body)
-      this.setState({contentAPI: myObj}, function() {
-      })
+      this.setState({contentAPI: myObj})
     }.bind(this));
   }
 

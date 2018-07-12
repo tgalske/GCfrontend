@@ -12,15 +12,11 @@ class MainComponent extends React.Component {
     this.state = {
       isLoggedIn: false,
       needsUpdate: false
-    };
+    }
+    this.handler = this.handler.bind(this)
   }
 
-  myCallback = (needsUpdate) => {
-    console.log("Going from: " + this.state.needsUpdate)
-    this.setState({needsUpdate: !this.state.needsUpdate}, function() {
-      console.log("to: " + this.state.needsUpdate)
-    })
-  }
+  handler() { this.setState({ needsUpdate: true }) }
 
   toggleLoginStatus = () => {
     this.setState({isLoggedIn: !this.state.isLoggedIn})
@@ -36,7 +32,7 @@ class MainComponent extends React.Component {
               <ContentComponent needsUpdate={this.state.needsUpdate}/>
             </div>
             <div className="w-1/3 m-4">
-              <UploadComponent callbackFromParent={this.myCallback}/>
+              <UploadComponent handler={this.handler} needsUpdate={this.state.needsUpdate}/>
             </div>
             <div className="m-4 w-1/3">
               <MembersComponent/>
