@@ -30,7 +30,7 @@ class ContentComponent extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="border-1 border-black rounded shadow-lg p-4">
         {this.state.contentAPI.content.map(function(media, i) {
           return <div key={i}>
             <img className="rounded" alt='GCMedia' src={'http://127.0.0.1:3000/images/' + media.imageId + '.jpg'}/>
