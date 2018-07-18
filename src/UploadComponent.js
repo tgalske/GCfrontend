@@ -7,7 +7,7 @@ class UploadComponent extends React.Component {
       super(props);
       this.state = {
         title: '',
-        tags: [{ name: '' }],
+        tags: [],
       }
 
       this.handleChange = this.handleChange.bind(this);
@@ -25,17 +25,14 @@ class UploadComponent extends React.Component {
 
 
   // TAGS
-  handleTagNameChange = (idx) => (evt) => {
-    const newTags = this.state.tags.map((tag, sidx) => {
-      if (idx !== sidx) return tag;
-      return { ...tag, name: evt.target.value };
-    });
+  handleTagNameChange = (idx) => (event) => {
+    let newTags = [...this.state.tags];
+    newTags[idx] = event.target.value;
     this.setState({ tags: newTags });
   }
 
   handleAddTag = () => {
-    this.setState({ tags: this.state.tags.concat([{ name: '' }]) });
-    console.log(this.state.tags)
+    this.setState({ tags: this.state.tags.concat(['']) });
   }
 
   handleRemoveTag = (idx) => () => {
@@ -45,19 +42,17 @@ class UploadComponent extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-    if (this.fileInput.current.files[0] != null) {
-      formData.append('file', this.fileInput.current.files[0])
-    }
-    console.log(this.state.tags)
+    formData.append('file', this.fileInput.current.files[0])
     formData.append('title', this.state.title);
-    formData.append('tags', JSON.stringify(this.state.tags));
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' }
+
+    for (var i = 0; i < this.state.tags.length; i++) {
+      formData.append('tags', this.state.tags[i])
     }
+
     const url = 'http://127.0.0.1:3000/content';
-    axios.post(url, formData, config).then((response) => {
+    axios.post(url, formData).then((response) => {
        this.props.handler()
-       this.setState({title: '', })
+       this.setState({title: '', tags: [] })
      });
   }
 
@@ -102,8 +97,9 @@ class UploadComponent extends React.Component {
                 type="text"
                 className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight"
                 placeholder={"Add Tag"}
-                value={tag.name}
+                value={tag}
                 onChange={this.handleTagNameChange(idx)}
+                maxLength="15"
               />
               <button
                 type="button"
@@ -116,7 +112,7 @@ class UploadComponent extends React.Component {
         </div>
 
         {/* Add Tag Button */}
-        <div className="flex justify-end pt-4 pb-4">
+        <div className="flex justify-start pt-4 pb-4">
           <button
           className="shadow bg-teal hover:bg-teal-dark text-white py-2 px-4 rounded"
           type="button"
@@ -126,9 +122,11 @@ class UploadComponent extends React.Component {
         </div>
 
         {/* Form Submit Button */}
-        <button type="submit" className="bg-transparent hover:bg-teal text-teal font-semibold hover:text-white py-2 px-4 border border-teal hover:border-transparent rounded">
-          Submit
-        </button>
+        <div className="flex justify-center pt-4 pb-4 border-t border-t-2 border-teal">
+          <button type="submit" className="bg-transparent hover:bg-teal text-teal font-semibold hover:text-white py-2 px-4 border border-teal hover:border-transparent rounded">
+            Submit
+          </button>
+        </div>
       </form>
    )
   }
