@@ -1,17 +1,25 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
+import AuthenticationComponent from './AuthenticationComponent'
 
 class LoginComponent extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      phone: ''
+      phone: '',
+      isLoggedIn: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.clearForm = this.clearForm.bind(this);
-    this.submitForm = this.submitForm.bind(this);
   }
+
+  login = () => {
+    AuthenticationComponent.authenticate(() => {
+      this.setState({ isLoggedIn: true });
+    });
+  };
 
   handleChange(event) {
     this.setState({phone: event.target.value});
@@ -23,14 +31,17 @@ class LoginComponent extends React.Component {
     event.preventDefault();
   }
 
-  submitForm(event) {
-    this.props.callbackFromParent()
-    event.preventDefault();
-  };
-
   render() {
+
+    const { from } = this.props.location.state || { from: { pathname: "/home" } };
+    const { isLoggedIn } = this.state;
+
+    if (isLoggedIn) {
+      return <Redirect to={from} />;
+    }
+
     return (
-      <form className="w-full max-w-sm m-4 p-8 pt-6 border-teal border-2 rounded-lg">
+      <form className="w-full max-w-sm m-4 p-8 pt-6 border-teal border-2 rounded-lg bg-white">
         <div className="text-grey-darker text-sm font-bold mb-2">Log in to view content</div>
         <div className="flex items-center border-b border-b-2 border-teal py-2">
           <input
@@ -45,7 +56,7 @@ class LoginComponent extends React.Component {
           <button
             className="flex-no-shrink bg-teal hover:bg-teal-dark border-teal hover:border-teal-dark text-sm border-4 text-white py-1 px-2 rounded"
             type="button"
-            onClick={this.submitForm}>
+            onClick={this.login}>
             Log In
           </button>
           <input

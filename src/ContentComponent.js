@@ -1,14 +1,14 @@
 import React from 'react';
-var request = require('request');
+import axios from 'axios';
+import {S3_url, GCAPI_url} from './app_configs.json';
+import { Link } from "react-router-dom";
 
 class ContentComponent extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      contentAPI: {
-        content:[]
-      }
+      content: []
     }
     this.loadContent = this.loadContent.bind(this);
   }
@@ -21,45 +21,43 @@ class ContentComponent extends React.Component {
     this.loadContent()
   }
 
-  loadContent() {
-    request('http://localhost:3000/content', function (error, response, body) {
-      let myObj = JSON.parse(body)
-      this.setState({contentAPI: myObj})
-    }.bind(this));
+  loadContent = () => {
+    const url = GCAPI_url + '/content';
+    axios.get(url).then((response) => {
+      this.setState({content: response.data})
+    })
   }
 
   render() {
 
     return(
       <div>
-      {this.state.contentAPI.content.map(function(media, i) {
+      {this.state.content.map(function(media, i) {
         return (
-          <div key={i} className="max-w-sm rounded overflow-hidden shadow-lg mb-8">
+          <div key={i} className="w-full rounded-lg overflow-hidden bg-white shadow-lg mb-8">
 
           {media.isImage ? (
-            <img className="w-full" src={'http://127.0.0.1:3000/images/' + media.imageId + media.fileType} alt="GCMedia"/>
+            <img className="w-full" src={S3_url + media.fileId + media.fileType} alt="GCMedia"/>
           ) : (
             <video className="w-full" controls>
-              <source src={'http://127.0.0.1:3000/images/' + media.imageId + media.fileType} type="video/mp4"/>
+              <source src={S3_url + media.fileId + media.fileType} type="video/mp4"/>
             </video>
           )}
 
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{media.title}</div>
+            <div className="px-2 py-4">
+              <Link className="font-bold text-xl text-black no-underline hover:underline" to={"/id/" + media.fileId}>{media.title}</Link>
             </div>
-              {
-                media.tags.map(function(name, j) {
-                  if (name != null && name.length > 1) {
-                    return (
-                      <span key={j} className="ml-2 mr-2 mb-4 inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker">{name}</span>
-                    )
-                  } else {
-                    return (
-                      <span key={j}></span>
-                    )
-                  }
-                })
-              }
+            {
+              media.tags.map(function(name, j) {
+                if (name != null && name.length > 1) {
+                  return (
+                    <span key={j} className="ml-2 mr-2 mb-4 inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker">{name}</span>
+                  )
+                } else {
+                  return null
+                }
+              })
+            }
           </div>
         )
       })}

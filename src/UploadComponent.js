@@ -1,5 +1,8 @@
 import React from 'react'
+import {GCAPI_url} from './app_configs.json';
 import axios from 'axios';
+import 'font-awesome/css/font-awesome.min.css';
+const uuidv1 = require('uuid/v1');
 
 class UploadComponent extends React.Component {
 
@@ -8,6 +11,7 @@ class UploadComponent extends React.Component {
       this.state = {
         title: '',
         tags: [],
+        fileId: uuidv1()
       }
 
       this.handleChange = this.handleChange.bind(this);
@@ -39,26 +43,25 @@ class UploadComponent extends React.Component {
     this.setState({ tags: this.state.tags.filter((s, sidx) => idx !== sidx) });
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.fileInput.current.files[0])
-    formData.append('title', this.state.title);
-
+    formData.append('title', this.state.title)
+    formData.append('fileId', this.state.fileId)
     for (var i = 0; i < this.state.tags.length; i++) {
       formData.append('tags', this.state.tags[i])
     }
 
-    const url = 'http://127.0.0.1:3000/content';
-    axios.post(url, formData).then((response) => {
-       this.props.handler()
-       this.setState({title: '', tags: [] })
+    const url = GCAPI_url + '/content';
+    axios.post(url, formData).then(() => {
+       this.props.callbackFromFilePage(this.state.fileId);
      });
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="w-full max-w-md">
+      <form onSubmit={this.handleSubmit} className="w-full bg-white p-4 rounded-lg">
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
             <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
@@ -105,7 +108,7 @@ class UploadComponent extends React.Component {
                 type="button"
                 className="w-10 text-xl font-bold ml-4 p-2 flex-no-shrink bg-red-light hover:bg-red border-red-light hover:border-red text-sm border-4 text-white py-1 px-2 rounded"
                 onClick={this.handleRemoveTag(idx)}>
-                -
+                <i className="fa fa-minus"/>
               </button>
             </div>
           ))}
@@ -117,14 +120,14 @@ class UploadComponent extends React.Component {
           className="shadow bg-teal hover:bg-teal-dark text-white py-2 px-4 rounded"
           type="button"
           onClick={this.handleAddTag}>
-            Add Tag
+            <i className="fa fa-plus"></i> Add Tag
           </button>
         </div>
 
         {/* Form Submit Button */}
         <div className="flex justify-center pt-4 pb-4 border-t border-t-2 border-teal">
           <button type="submit" className="bg-transparent hover:bg-teal text-teal font-semibold hover:text-white py-2 px-4 border border-teal hover:border-transparent rounded">
-            Submit
+            <i className="fa fa-upload"/> Upload
           </button>
         </div>
       </form>

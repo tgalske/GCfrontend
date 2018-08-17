@@ -1,47 +1,48 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import TitleComponent from './TitleComponent'
+import LoginComponent from './LoginComponent'
 import MembersComponent from './MembersComponent'
-import ContentComponent from './ContentComponent'
-import UploadComponent from './UploadComponent'
+import HomePage from './HomePage'
+import SearchComponent from './SearchComponent'
+import FilePage from './FilePage'
+import AuthenticationComponent from './AuthenticationComponent'
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import 'font-awesome/css/font-awesome.min.css';
 
 class MainComponent extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: false,
-      needsUpdate: false
-    }
-    this.handler = this.handler.bind(this)
-  }
-
-  handler() { this.setState({ needsUpdate: true }) }
-
-  toggleLoginStatus = () => {
-    this.setState({isLoggedIn: !this.state.isLoggedIn})
-  }
-
   render() {
-    return (
+    return(
       <Router>
         <div>
           <TitleComponent/>
-          <div className="flex mb-4">
-            <div className="w-1/3 m-4">
-              <ContentComponent needsUpdate={this.state.needsUpdate}/>
-            </div>
-            <div className="w-1/3 m-4">
-              <UploadComponent handler={this.handler} needsUpdate={this.state.needsUpdate}/>
-            </div>
-            <div className="m-4 w-1/3">
-              <MembersComponent/>
-            </div>
-          </div>
+          <Route exact path="/" component={LoginComponent} />
+          <PrivateRoute path="/home" component={HomePage} />
+          <PrivateRoute path="/members" component={MembersComponent} />
+          <PrivateRoute path="/search" component={SearchComponent} />
+          <PrivateRoute path="/id/:fileId" component={FilePage} />
         </div>
       </Router>
     )
   }
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      AuthenticationComponent.isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
 
 export default MainComponent;

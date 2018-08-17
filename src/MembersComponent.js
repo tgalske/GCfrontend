@@ -1,4 +1,5 @@
 import React from 'react';
+import {GCAPI_url} from './app_configs.json';
 var request = require('request');
 
 class MembersComponent extends React.Component {
@@ -13,7 +14,7 @@ class MembersComponent extends React.Component {
   }
 
   componentDidMount() {
-    request('http://localhost:3000/members', function (error, response, body) {
+    request(GCAPI_url + '/members', function (error, response, body) {
       let myObj = JSON.parse(body)
       this.setState({memberAPI: myObj}, function() {
       })
