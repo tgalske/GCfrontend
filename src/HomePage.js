@@ -10,7 +10,7 @@ class HomePage extends React.Component {
     this.state = {
       isLoggedIn: true,
       needsUpdate: false
-    }
+    };
     this.handler = this.handler.bind(this)
   }
 
@@ -20,7 +20,11 @@ class HomePage extends React.Component {
 
   toggleLoginStatus = () => {
     this.setState({isLoggedIn: !this.state.isLoggedIn})
-  }
+  };
+
+  uploadCallback = (fileId) => {
+    this.props.history.push('/id/' + fileId);
+  };
 
   render() {
     return(
@@ -30,7 +34,7 @@ class HomePage extends React.Component {
             <ContentComponent needsUpdate={this.props.needsUpdate}/>
           </div>
           <div className="w-1/3 m-4">
-            <UploadComponent handler={this.handler} needsUpdate={this.props.needsUpdate}/>
+            <UploadComponent handler={this.handler} needsUpdate={this.props.needsUpdate} filePageCallback={this.uploadCallback}/>
             <SearchComponent/>
           </div>
         </div>

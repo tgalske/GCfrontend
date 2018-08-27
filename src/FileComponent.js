@@ -6,7 +6,7 @@ import axios from 'axios';
 class FileComponent extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.loadFile = this.loadFile.bind(this);
     this.state = {
       validResponse: false
@@ -14,17 +14,28 @@ class FileComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.loadFile()
-    console.log(this.state)
+    this.loadFile();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.fileId !== prevProps.fileId) {
+      this.setState({validResponse: false}, () => {
+        this.loadFile();
+      });
+    }
   }
 
   loadFile = () => {
-    let fileId = this.props.fileId
+    let fileId = this.props.fileId;
     const url = GCAPI_url + '/content/id/' + fileId;
     axios.get(url).then((response) => {
-      this.setState( {file: response.data, validResponse: true});
+      if (response.data === "") {
+        setTimeout(this.loadFile, 1000);
+      } else {
+        this.setState( {file: response.data, validResponse: true});
+      }
     });
-  }
+  };
 
   render() {
     if (this.state.validResponse) {
@@ -33,7 +44,9 @@ class FileComponent extends React.Component {
           <img className="w-full" src={S3_url + this.state.file.fileId + this.state.file.fileType} alt="File"/>
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2">{this.state.file.title}</div>
+            {this.state.file.tags != null &&
             <ToggleSearchTagsComponent className="text-black" tags={this.state.file.tags}/>
+            }
           </div>
         </div>
       )

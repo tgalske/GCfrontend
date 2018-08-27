@@ -12,7 +12,7 @@ class UploadComponent extends React.Component {
         title: '',
         tags: [],
         fileId: uuidv1()
-      }
+      };
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,35 +27,34 @@ class UploadComponent extends React.Component {
     this.setState({title: event.target.value})
   }
 
-
   // TAGS
   handleTagNameChange = (idx) => (event) => {
     let newTags = [...this.state.tags];
     newTags[idx] = event.target.value;
     this.setState({ tags: newTags });
-  }
+  };
 
   handleAddTag = () => {
     this.setState({ tags: this.state.tags.concat(['']) });
-  }
+  };
 
   handleRemoveTag = (idx) => () => {
     this.setState({ tags: this.state.tags.filter((s, sidx) => idx !== sidx) });
-  }
+  };
 
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', this.fileInput.current.files[0])
-    formData.append('title', this.state.title)
-    formData.append('fileId', this.state.fileId)
+    formData.append('file', this.fileInput.current.files[0]);
+    formData.append('title', this.state.title);
+    formData.append('fileId', this.state.fileId);
     for (var i = 0; i < this.state.tags.length; i++) {
-      formData.append('tags', this.state.tags[i])
+      formData.append('tags', this.state.tags[i]);
     }
 
     const url = GCAPI_url + '/content';
     axios.post(url, formData).then(() => {
-       this.props.callbackFromFilePage(this.state.fileId);
+       this.props.filePageCallback(this.state.fileId);
      });
   }
 

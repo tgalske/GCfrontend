@@ -23,8 +23,8 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "prestart": "tailwind build ./src/index.tailwind.css -c ./tailwind.js -o ./src/index.css",
-    "start": "react-scripts start",
+    "prestart": "tailwind build -c ./tailwind.js -o ./src/index.css",
+    "start": "set PORT=3001 && react-scripts start",
     "prebuild": "tailwind build ./src/index.tailwind.css -c ./tailwind.js -o ./src/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

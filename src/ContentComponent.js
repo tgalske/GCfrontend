@@ -26,7 +26,7 @@ class ContentComponent extends React.Component {
     axios.get(url).then((response) => {
       this.setState({content: response.data})
     })
-  }
+  };
 
   render() {
 

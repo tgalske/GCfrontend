@@ -1,7 +1,7 @@
 import React from "react";
 import TitleComponent from './TitleComponent'
 import LoginComponent from './LoginComponent'
-import MembersComponent from './MembersComponent'
+import MembersPage from './MembersPage'
 import HomePage from './HomePage'
 import SearchComponent from './SearchComponent'
 import FilePage from './FilePage'
@@ -18,7 +18,7 @@ class MainComponent extends React.Component {
           <TitleComponent/>
           <Route exact path="/" component={LoginComponent} />
           <PrivateRoute path="/home" component={HomePage} />
-          <PrivateRoute path="/members" component={MembersComponent} />
+          <PrivateRoute path="/members" component={MembersPage} />
           <PrivateRoute path="/search" component={SearchComponent} />
           <PrivateRoute path="/id/:fileId" component={FilePage} />
         </div>

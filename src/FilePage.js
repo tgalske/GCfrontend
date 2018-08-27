@@ -6,15 +6,17 @@ import 'font-awesome/css/font-awesome.min.css';
 class FilePage extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       fileId: this.props.match.params.fileId
     }
   }
 
-  myCallback = (dataFromChild) => {
-    this.setState({fileId: dataFromChild})
-  }
+  uploadCallback = (newFileId) => {
+    this.setState({fileId: newFileId}, function() {
+      this.props.history.push('/id/' + this.state.fileId);
+    });
+  };
 
   render() {
     return(
@@ -26,7 +28,7 @@ class FilePage extends React.Component {
         </div>
         <div className="flex justify-center pt-10 pb-20 pl-4 pr-4">
           <div className="w-1/2">
-            <UploadComponent callbackFromFilePage={this.myCallback}/>
+            <UploadComponent filePageCallback={this.uploadCallback}/>
           </div>
         </div>
       </div>

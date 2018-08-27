@@ -17,7 +17,7 @@ class ToggleSearchTagsComponent extends React.Component {
   }
 
   render() {
-    const tags = this.props.tags
+    const tags = this.props.tags;
     if (tags.length > 0 && tags[0] !== "") {
       if (this.state.showTags) {
         return (
