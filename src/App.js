@@ -1,26 +1,25 @@
 import React from "react";
-import TitleComponent from './TitleComponent'
-import LoginComponent from './LoginComponent'
-import MembersPage from './MembersPage'
-import HomePage from './HomePage'
-import SearchComponent from './SearchComponent'
-import FilePage from './FilePage'
-import AuthenticationComponent from './AuthenticationComponent'
+import TitleComponent from './TitleComponent';
+import LoginComponent from './LoginComponent';
+import MembersPage from './MembersPage';
+import HomePage from './HomePage';
+import SearchComponent from './SearchComponent';
+import FilePage from './FilePage';
+import Callback from './Callback/Callback';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import 'font-awesome/css/font-awesome.min.css';
 
 class MainComponent extends React.Component {
-
   render() {
     return(
       <Router>
         <div>
-          <TitleComponent/>
-          <Route exact path="/" component={LoginComponent} />
-          <PrivateRoute path="/home" component={HomePage} />
-          <PrivateRoute path="/members" component={MembersPage} />
-          <PrivateRoute path="/search" component={SearchComponent} />
-          <PrivateRoute path="/id/:fileId" component={FilePage} />
+          <TitleComponent auth={this.props.auth}/>
+          <Route exact path='/' render={(props) => (<LoginComponent {...props} auth={this.props.auth} />)}/>
+          <Route exact path='/callback' render={() => (<Callback auth={this.props.auth}/>)}/>
+          <PrivateRoute path="/home" component={HomePage} auth={this.props.auth} />
+          <PrivateRoute path="/members" component={MembersPage} auth={this.props.auth} />
+          <PrivateRoute path="/search" component={SearchComponent} auth={this.props.auth} />
+          <PrivateRoute path="/id/:fileId" component={FilePage} auth={this.props.auth} />
         </div>
       </Router>
     )
@@ -30,18 +29,12 @@ class MainComponent extends React.Component {
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      AuthenticationComponent.isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
+    render={(props) => rest.auth.isAuthenticated() ? (
+    <Component {...props} />
+    ) : (
+      <Redirect to={{ pathname: "/", state: { from: props.location } }}/>
+    )
+  }
   />
 );
 

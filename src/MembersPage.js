@@ -22,15 +22,16 @@ class MembersPage extends React.Component {
         {this.state.member == null ? (
           <div className="flex mb-4">
             <div className="w-full m-4 max-w-lg">
+              <br/>
               <MemberListComponent membersPageCallback={this.memberCallback}/>
             </div>
           </div>
           ) : (
           <div className="flex mb-4">
-            <div className="w-1/3 m-4 max-w-md">
+            <div className="w-1/2 m-4 max-w-md">
               <MemberListComponent membersPageCallback={this.memberCallback}/>
             </div>
-            <div className="w-2/3 m-4">
+            <div className="w-1/2 m-4">
               <MemberComponent member={this.state.member}/>
             </div>
           </div>

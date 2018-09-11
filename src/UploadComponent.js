@@ -51,7 +51,6 @@ class UploadComponent extends React.Component {
     for (var i = 0; i < this.state.tags.length; i++) {
       formData.append('tags', this.state.tags[i]);
     }
-
     const url = GCAPI_url + '/content';
     axios.post(url, formData).then(() => {
        this.props.filePageCallback(this.state.fileId);

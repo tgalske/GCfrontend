@@ -33,6 +33,9 @@ class ContentComponent extends React.Component {
     return(
       <div>
       {this.state.content.map(function(media, i) {
+        if (!media.isVisible) {
+          return null;
+        }
         return (
           <div key={i} className="w-full rounded-lg overflow-hidden bg-white shadow-lg mb-8">
 

@@ -1,42 +1,26 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
-import AuthenticationComponent from './AuthenticationComponent'
-
 class LoginComponent extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      phone: '',
-      isLoggedIn: false
+      phone: ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.clearForm = this.clearForm.bind(this);
   }
 
   login = () => {
-    AuthenticationComponent.authenticate(() => {
-      this.setState({ isLoggedIn: true });
-    });
+    this.props.auth.login();
   };
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({phone: event.target.value});
-  }
-
-  clearForm(event) {
-    this.setState({phone: ''})
-    this.refs.phone.focus()
-    event.preventDefault();
-  }
+  };
 
   render() {
-
     const { from } = this.props.location.state || { from: { pathname: "/home" } };
-    const { isLoggedIn } = this.state;
 
-    if (isLoggedIn) {
+    if (this.props.isAuthenticated) {
       return <Redirect to={from} />;
     }
 
@@ -59,12 +43,6 @@ class LoginComponent extends React.Component {
             onClick={this.login}>
             Log In
           </button>
-          <input
-            className="flex-no-shrink border-transparent border-4 text-teal hover:text-teal-darker text-sm py-1 px-2 rounded"
-            type="button"
-            value="Clear"
-            onClick={this.clearForm}
-          />
         </div>
       </form>
     );

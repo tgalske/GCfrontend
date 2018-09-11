@@ -1,7 +1,6 @@
 import React from 'react';
 import FileComponent from './FileComponent'
 import UploadComponent from './UploadComponent'
-import 'font-awesome/css/font-awesome.min.css';
 
 class FilePage extends React.Component {
 

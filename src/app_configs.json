@@ -1,5 +1,5 @@
 {
   "S3_url": "https://s3.amazonaws.com/s3-gc-media/",
   "S3_bucket_name": "s3-gc-media",
-  "GCAPI_url": "http://localhost:3000"
+  "GCAPI_url": "https://gcapi.mrtg.stream"
 }

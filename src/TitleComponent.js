@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link, withRouter } from "react-router-dom";
-import AuthenticationComponent from './AuthenticationComponent'
+import { Link } from "react-router-dom";
 
 class TitleComponent extends React.Component {
+
+  logout = () => {
+    this.props.auth.logout();
+  };
 
   render() {
     return(
@@ -19,28 +22,12 @@ class TitleComponent extends React.Component {
             <Link to="/search" className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">Search</Link>
           </div>
         </div>
-        <AuthButton/>
+        <Link to="/" onClick={this.logout} className="pin-r text-sm block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">Logout</Link>
+
       </nav>
     );
   }
 }
 
-const AuthButton = withRouter(
-  ({ history }) =>
-    AuthenticationComponent.isAuthenticated ? (
-      <p>
-        <button
-          className="bg-white px-2 py-1 rounded"
-          onClick={() => {
-            AuthenticationComponent.signout(() => history.push("/"));
-          }}
-        >
-          Sign out
-        </button>
-      </p>
-    ) : (
-      <span></span>
-    )
-);
 
 export default TitleComponent
