@@ -5,7 +5,7 @@ export default class Auth {
     this.auth0 = new auth0.WebAuth({
       domain: 'gcmedia.auth0.com',
       clientID: 'H2FoY19W39tr5OUyz04S0E0YGlg6m7xn',
-      redirectUri: 'http://localhost:3001/callback',
+      redirectUri: 'http://localhost:3000/callback',
       audience: 'https://gcmedia.auth0.com/userinfo',
       responseType: 'token id_token',
       scope: 'openid'

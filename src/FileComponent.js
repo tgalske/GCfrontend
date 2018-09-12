@@ -53,7 +53,7 @@ class FileComponent extends React.Component {
     }
     return(
       <div>
-        <i className="fa fa-spinner fa-spin"></i>
+        Loading...
       </div>
     )
   }

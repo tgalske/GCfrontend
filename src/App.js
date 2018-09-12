@@ -1,4 +1,5 @@
 import React from "react";
+import './App.css';
 import TitleComponent from './TitleComponent';
 import LoginComponent from './LoginComponent';
 import MembersPage from './MembersPage';

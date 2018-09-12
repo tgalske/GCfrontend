@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 
 class TitleComponent extends React.Component {
 
+  login = () => {
+    this.props.auth.login();
+  };
+
   logout = () => {
     this.props.auth.logout();
   };
@@ -22,8 +26,11 @@ class TitleComponent extends React.Component {
             <Link to="/search" className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">Search</Link>
           </div>
         </div>
-        <Link to="/" onClick={this.logout} className="pin-r text-sm block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">Logout</Link>
-
+        {this.props.auth.isAuthenticated() ? (
+          <Link to="/" onClick={this.logout} className="pin-r text-sm block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">Logout</Link>
+        ) : (
+          <Link to="/" onClick={this.login} className="pin-r text-sm block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">Login</Link>
+        )}
       </nav>
     );
   }

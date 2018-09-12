@@ -49,7 +49,7 @@ class SearchComponent extends React.Component {
         <form className="w-full p-4">
           <div className="flex items-center py-2">
             <input
-              className="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight"
+              className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-teal rounded py-3 px-4 mb-3 leading-tight"
               type="text"
               placeholder="Search"
               ref="query"
@@ -57,12 +57,12 @@ class SearchComponent extends React.Component {
               onChange={this.handleChange}
             />
             <button
-              className="flex-no-shrink border-transparent border-4 text-teal hover:text-teal-darker text-sm py-1 px-2 rounded"
+              className="flex-no-shrink border-transparent border-4 text-teal py-1 px-2 rounded text-black"
               type="button"
               onClick={this.clearForm}
             >
               <div className="text-red">
-                <i className="fa fa-times"/> Clear
+                Clear
               </div>
             </button>
           </div>
